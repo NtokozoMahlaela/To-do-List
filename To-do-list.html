@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .task-container {
+            flex: 1;
+            padding-right: 20px;
+        }
+        .menu-container {
+            width: 200px;
+            padding-left: 20px;
+            border-left: 1px solid #ddd;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .task-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .important {
+            color: red;
+            font-weight: bold;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: gray;
+            margin-top: 5px;
+        }
+        button {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        #calendar {
+            display: none;
+            margin-top: 20px;
+        }
+        #stickyWall {
+            display: none;
+            margin-top: 20px;
+        }
+        #stickyWallInput {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Task Container -->
+        <div class="task-container">
+            <h2>To-Do List</h2>
+            <input type="text" id="taskInput" placeholder="Enter a task">
+            <button onclick="addTask()">Add</button>
+            <input type="checkbox" id="importantCheck"> Mark as Important
+            <ul id="taskList"></ul>
+        </div>
+
+        <!-- Menu Container -->
+        <div class="menu-container">
+            <h3>Menu</h3>
+            <select id="menu" onchange="handleMenuChange()">
+                <option value="">Select Options</option>
+                <option value="completed">Completed</option>
+                <option value="calendar">Calendar</option>
+                <option value="recentlyDeleted">Recently Deleted</option>
+                <option value="stickyWall">Sticky Walls</option>
+            </select>
+
+            <!-- Calendar -->
+            <div id="calendar">
+                <input type="date" id="reminderDate">
+                <button onclick="setReminder()">Set Reminder</button>
+            </div>
+
+            <!-- Sticky Wall -->
+            <div id="stickyWall">
+                <input type="text" id="stickyWallInput" placeholder="Write a sticky note">
+                <button onclick="addStickyNote()">Add Sticky</button>
+                <ul id="stickyNotesList"></ul>
+            </div>
+
+            <!-- Recently Deleted -->
+            <div id="recentlyDeleted" style="display:none;">
+                <h3>Recently Deleted Tasks</h3>
+                <ul id="recentlyDeletedList"></ul>
+                <button onclick="permanentlyDelete()">Permanent Delete All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+        let recentlyDeleted = [];
+        let stickyNotes = [];
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let taskText = taskInput.value.trim();
+            let importantCheck = document.getElementById("importantCheck").checked;
+            if (taskText === "") return;
+
+            let task = {
+                text: taskText,
+                important: importantCheck,
+                completed: false,
+                timestamp: new Date(),
+            };
+            tasks.push(task);
+            renderTasks();
+
+            taskInput.value = "";
+            document.getElementById("importantCheck").checked = false;
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            tasks.forEach((task, index) => {
+                let li = document.createElement("li");
+                let taskDiv = document.createElement("div");
+                taskDiv.classList.add("task-content");
+
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.completed;
+                checkbox.onchange = function() {
+                    task.completed = checkbox.checked;
+                    renderTasks();
+                };
+
+                let span = document.createElement("span");
+                span.textContent = task.text;
+                if (task.important) {
+                    span.classList.add("important");
+                }
+                if (task.completed) {
+                    span.classList.add("completed");
+                }
+
+                let editButton = document.createElement("button");
+                editButton.textContent = "Edit";
+                editButton.onclick = function() {
+                    taskInput.value = span.textContent;
+                    taskInput.focus();
+                    tasks.splice(index, 1);
+                    renderTasks();
+                };
+
+                let removeButton = document.createElement("button");
+                removeButton.textContent = "Remove";
+                removeButton.onclick = function() {
+                    recentlyDeleted.push(task);
+                    tasks.splice(index, 1);
+                    renderTasks();
+                };
+
+                let timestamp = document.createElement("div");
+                timestamp.classList.add("timestamp");
+                timestamp.textContent = `Added on: ${task.timestamp.toLocaleString()}`;
+
+                taskDiv.appendChild(checkbox);
+                taskDiv.appendChild(span);
+                taskDiv.appendChild(editButton);
+                taskDiv.appendChild(removeButton);
+                li.appendChild(taskDiv);
+                li.appendChild(timestamp);
+                taskList.appendChild(li);
+            });
+        }
+
+        function handleMenuChange() {
+            const menu = document.getElementById("menu").value;
+            document.getElementById("calendar").style.display = "none";
+            document.getElementById("stickyWall").style.display = "none";
+            document.getElementById("recentlyDeleted").style.display = "none";
+
+            if (menu === "calendar") {
+                document.getElementById("calendar").style.display = "block";
+            } else if (menu === "stickyWall") {
+                document.getElementById("stickyWall").style.display = "block";
+            } else if (menu === "recentlyDeleted") {
+                document.getElementById("recentlyDeleted").style.display = "block";
+                renderRecentlyDeleted();
+            } else if (menu === "completed") {
+                renderCompletedTasks();
+            }
+        }
+
+        function renderCompletedTasks() {
+            const taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+            tasks.filter(task => task.completed).forEach(task => {
+                let li = document.createElement("li");
+                li.textContent = task.text;
+                taskList.appendChild(li);
+            });
+        }
+
+        function setReminder() {
+            const reminderDate = document.getElementById("reminderDate").value;
+            alert(`Reminder set for: ${reminderDate}`);
+        }
+
+        function addStickyNote() {
+            const stickyNoteText = document.getElementById("stickyWallInput").value.trim();
+            if (stickyNoteText === "") return;
+            stickyNotes.push(stickyNoteText);
+            renderStickyNotes();
+            document.getElementById("stickyWallInput").value = "";
+        }
+
+        function renderStickyNotes() {
+            const stickyNotesList = document.getElementById("stickyNotesList");
+            stickyNotesList.innerHTML = "";
+            stickyNotes.forEach(note => {
+                let li = document.createElement("li");
+                li.textContent = note;
+                stickyNotesList.appendChild(li);
+            });
+        }
+
+        function renderRecentlyDeleted() {
+            const deletedList = document.getElementById("recentlyDeletedList");
+            deletedList.innerHTML = "";
+            recentlyDeleted.forEach((task, index) => {
+                let li = document.createElement("li");
+                li.textContent = task.text;
+
+                let permanentDeleteButton = document.createElement("button");
+                permanentDeleteButton.textContent = "Permanent Delete";
+                permanentDeleteButton.onclick = function() {
+                    permanentlyDeleteTask(index);
+                };
+
+                li.appendChild(permanentDeleteButton);
+                deletedList.appendChild(li);
+            });
+        }
+
+        function permanentlyDeleteTask(index) {
+            recentlyDeleted.splice(index, 1);
+            renderRecentlyDeleted();
+        }
+
+        function permanentlyDelete() {
+            recentlyDeleted = [];
+            renderRecentlyDeleted();
+        }
+    </script>
+</body>
+</html>
