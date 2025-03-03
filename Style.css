@@ -1,0 +1,183 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f1f1f1;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Container */
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    height: 80%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Task Container */
+.task-container {
+    width: 60%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-container h2 {
+    font-size: 24px;
+    color: #4caf50;
+    margin-bottom: 20px;
+}
+
+#taskInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+li {
+    background-color: #e7ffe7;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li.important {
+    background-color: #ffeb3b;
+}
+
+/* Menu Container */
+.menu-container {
+    width: 30%;
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-container h3 {
+    font-size: 22px;
+    color: #3f51b5;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#calendar, #stickyWall, #recentlyDeleted {
+    margin-top: 20px;
+}
+
+input[type="date"], input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#reminderDate {
+    width: calc(100% - 22px);
+}
+
+button {
+    background-color: #3f51b5;
+    color: white;
+}
+
+button:hover {
+    background-color: #303f9f;
+}
+
+/* Recently Deleted */
+#recentlyDeleted {
+    display: none;
+}
+
+#recentlyDeletedList li {
+    background-color: #ffe0e0;
+}
+
+/* Sticky Notes */
+#stickyNotesList li {
+    background-color: #fff7d4;
+    border: 1px solid #ffd740;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+ul li {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .task-container, .menu-container {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+}
