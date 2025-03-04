@@ -155,3 +155,4 @@ let tasks = [];
             recentlyDeleted = [];
             renderRecentlyDeleted();
         }
+        

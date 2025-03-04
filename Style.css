@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #f1f1f1;
+    background: url('/Image/pexels-tara-winstead-8386758.jpg') no-repeat center center/cover;
     color: #333;
     font-size: 16px;
     line-height: 1.6;
@@ -18,17 +18,30 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.glass-container {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Blur effect for glass look */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
 /* Container */
 .container {
     display: flex;
     justify-content: space-between;
     width: 80%;
     height: 80%;
-    background-color: #ffffff;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border for glass effect */
 }
+
 
 /* Task Container */
 .task-container {
@@ -152,7 +165,8 @@ button:hover {
 /* Sticky Notes */
 #stickyNotesList li {
     background-color: #fff7d4;
-    border: 1px solid #ffd740;
+    border: 5px solid #ffd740;
+    border-radius: 20px;
 }
 
 /* Animation */
@@ -181,3 +195,113 @@ ul li {
         margin-bottom: 20px;
     }
 }
+
+
+
+/* Task Container */
+.task-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.task-container h2 {
+    color: #1e88e5;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Input Field */
+#taskInput {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#taskInput:focus {
+    border-color: #1e88e5;
+}
+
+/* Button Styles */
+button {
+    background-color: #1e88e5;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+button:hover {
+    background-color: #1565c0;
+}
+
+/* Checkbox Styles */
+input[type="checkbox"] {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Task List */
+ul#taskList {
+    list-style-type: none;
+    margin-top: 20px;
+    padding-left: 0;
+    text-align: left;
+}
+
+ul#taskList li {
+    background-color: #e1f5fe;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+}
+
+ul#taskList li.important {
+    background-color: #fff59d;
+    border-left: 5px solid #ffeb3b;
+}
+
+ul#taskList li button {
+    background-color: transparent;
+    color: #ff3b30;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+ul#taskList li button:hover {
+    color: #d32f2f;
+}
+
+/* Animation for Fade-In */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
