@@ -18,6 +18,56 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+/* Hide default checkbox */
+.checkbox-container input {
+    display: none;
+}
+
+/* Custom checkbox container */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Custom checkmark (toggle switch style) */
+.checkmark {
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    transition: background 0.3s ease-in-out;
+    margin-right: 10px;
+}
+
+/* Inner circle */
+.checkmark::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Checked state */
+.checkbox-container input:checked + .checkmark {
+    background-color: #4CAF50;
+}
+
+/* Move the circle when checked */
+.checkbox-container input:checked + .checkmark::before {
+    transform: translateX(20px);
+}
+
+
 .glass-container {
     background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
     backdrop-filter: blur(10px); /* Blur effect for glass look */
