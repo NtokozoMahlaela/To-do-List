@@ -1,4 +1,3 @@
-// Install dependencies: npm install express json-server cors
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -22,35 +21,52 @@ function writeDB(data) {
 
 // Get all tasks
 app.get("/tasks", (req, res) => {
-    const db = readDB();
-    res.json(db.tasks);
+    try {
+        const db = readDB();
+        res.json(db.tasks);
+    } catch (error) {
+        res.status(500).send("Error reading database");
+    }
 });
 
 // Add a new task
 app.post("/tasks", (req, res) => {
-    const db = readDB();
-    const newTask = { id: Date.now(), ...req.body };
-    db.tasks.push(newTask);
-    writeDB(db);
-    res.json(newTask);
+    try {
+        const db = readDB();
+        const newTask = { id: Date.now(), ...req.body };
+        db.tasks.push(newTask);
+        writeDB(db);
+        res.status(201).json(newTask);
+    } catch (error) {
+        res.status(500).send("Error writing to database");
+    }
 });
 
 // Update a task
 app.put("/tasks/:id", (req, res) => {
-    const db = readDB();
-    const taskIndex = db.tasks.findIndex(t => t.id == req.params.id);
-    if (taskIndex === -1) return res.status(404).send("Task not found");
-    db.tasks[taskIndex] = { ...db.tasks[taskIndex], ...req.body };
-    writeDB(db);
-    res.json(db.tasks[taskIndex]);
+    try {
+        const db = readDB();
+        const taskIndex = db.tasks.findIndex(t => t.id == req.params.id);
+        if (taskIndex === -1) return res.status(404).send("Task not found");
+
+        db.tasks[taskIndex] = { ...db.tasks[taskIndex], ...req.body };
+        writeDB(db);
+        res.json(db.tasks[taskIndex]);
+    } catch (error) {
+        res.status(500).send("Error updating database");
+    }
 });
 
 // Delete a task
 app.delete("/tasks/:id", (req, res) => {
-    const db = readDB();
-    db.tasks = db.tasks.filter(t => t.id != req.params.id);
-    writeDB(db);
-    res.send("Task deleted");
+    try {
+        const db = readDB();
+        db.tasks = db.tasks.filter(t => t.id != req.params.id);
+        writeDB(db);
+        res.send("Task deleted");
+    } catch (error) {
+        res.status(500).send("Error deleting task");
+    }
 });
 
 app.listen(PORT, () => {
