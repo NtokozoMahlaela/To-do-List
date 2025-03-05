@@ -13,7 +13,10 @@
             <h2>To-Do List</h2>
             <input type="text" id="taskInput" placeholder="Enter a task">
             <button onclick="addTask()">Add</button>
-            <input type="checkbox" id="importantCheck"> Mark as Important
+            <label class="checkbox-container">
+                <input type="checkbox" id="importantCheck">
+                <span class="checkmark"></span> Mark as Important
+            </label>
             <ul id="taskList"></ul>
         </div>
 
